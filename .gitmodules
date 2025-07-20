@@ -6,3 +6,6 @@
 	path = wiki
 	url = https://github.com/JustArchiNET/ArchiSteamFarm.wiki.git
 	branch = master
+[submodule "ArchiSteamFarm.CustomPlugins.WorkerPlugin"]
+	path = ArchiSteamFarm.CustomPlugins.WorkerPlugin
+	url = git@github.com:uudog88/WorkerPlugin.git
