@@ -2652,16 +2652,19 @@ public sealed class Commands {
 							if (!skipRequest) {
 								CStore_RegisterCDKey_Response? redeemResult = await currentBot.Actions.RedeemKey(key).ConfigureAwait(false);
 
-								if (redeemResult != null) {
+								if (redeemResult == null) {
+									result = EResult.Timeout;
+									purchaseResultDetail = EPurchaseResultDetail.Timeout;
+								} else if (redeemResult.purchase_receipt_info == null) {
+									result = EResult.BadResponse;
+									purchaseResultDetail = EPurchaseResultDetail.NoDetail;
+								} else {
 									result = (EResult) redeemResult.purchase_receipt_info.purchase_status;
 									purchaseResultDetail = (EPurchaseResultDetail) redeemResult.purchase_result_details;
 
 									if (redeemResult.purchase_receipt_info.line_items.Count > 0) {
 										items = redeemResult.purchase_receipt_info.line_items.ToDictionary(static lineItem => lineItem.packageid, static lineItem => lineItem.line_item_description);
 									}
-								} else {
-									result = EResult.Timeout;
-									purchaseResultDetail = EPurchaseResultDetail.Timeout;
 								}
 							}
 
@@ -2699,7 +2702,7 @@ public sealed class Commands {
 									case EPurchaseResultDetail.BadActivationCode:
 									case EPurchaseResultDetail.CannotRedeemCodeFromClient:
 									case EPurchaseResultDetail.DuplicateActivationCode:
-									case EPurchaseResultDetail.NoDetail: // OK
+									case EPurchaseResultDetail.NoDetail:
 									case EPurchaseResultDetail.Timeout:
 										if ((result != EResult.Timeout) && (purchaseResultDetail != EPurchaseResultDetail.Timeout)) {
 											unusedKeys.Remove(key);
@@ -2749,13 +2752,18 @@ public sealed class Commands {
 
 											triedBots.Add(innerBot);
 
-											EResult redeemResult = (EResult) redeemResponse.purchase_receipt_info.purchase_status;
-											EPurchaseResultDetail redeemPurchaseResult = (EPurchaseResultDetail) redeemResponse.purchase_result_details;
+											EResult redeemResult = EResult.BadResponse;
+											EPurchaseResultDetail redeemPurchaseResult = EPurchaseResultDetail.NoDetail;
+
+											if (redeemResponse.purchase_receipt_info != null) {
+												redeemResult = (EResult) redeemResponse.purchase_receipt_info.purchase_status;
+												redeemPurchaseResult = (EPurchaseResultDetail) redeemResponse.purchase_result_details;
+											}
 
 											switch (redeemPurchaseResult) {
 												case EPurchaseResultDetail.BadActivationCode:
 												case EPurchaseResultDetail.DuplicateActivationCode:
-												case EPurchaseResultDetail.NoDetail: // OK
+												case EPurchaseResultDetail.NoDetail:
 													// This key is already handled, as we either redeemed it or we're sure it's dupe/invalid
 													alreadyHandled = true;
 
@@ -2768,7 +2776,7 @@ public sealed class Commands {
 													break;
 											}
 
-											Dictionary<uint, string>? redeemItems = redeemResponse.purchase_receipt_info.line_items.Count > 0 ? redeemResponse.purchase_receipt_info.line_items.ToDictionary(static lineItem => lineItem.packageid, static lineItem => lineItem.line_item_description) : null;
+											Dictionary<uint, string>? redeemItems = redeemResponse.purchase_receipt_info?.line_items.Count > 0 ? redeemResponse.purchase_receipt_info.line_items.ToDictionary(static lineItem => lineItem.packageid, static lineItem => lineItem.line_item_description) : null;
 
 											response.AppendLine(FormatBotResponse(redeemItems?.Count > 0 ? Strings.FormatBotRedeemWithItems(key, $"{redeemResult}/{redeemPurchaseResult}", string.Join(", ", redeemItems)) : Strings.FormatBotRedeem(key, $"{redeemResult}/{redeemPurchaseResult}"), innerBot.BotName));
 
