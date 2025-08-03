@@ -1,0 +1,12 @@
+{
+  "profiles": {
+    "ArchiSteamFarm": {
+      "commandName": "Project",
+      "commandLineArgs": "--system-required"
+    },
+    "ArchiSteamFarm (Headless)": {
+      "commandName": "Project",
+      "commandLineArgs": "--system-required --SERVICE"
+    }
+  }
+}
