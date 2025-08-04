@@ -21,7 +21,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArchiSteamFarm.OfficialPlug
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArchiSteamFarm.OfficialPlugins.Monitoring", "ArchiSteamFarm.OfficialPlugins.Monitoring\ArchiSteamFarm.OfficialPlugins.Monitoring.csproj", "{0213FBF7-C06E-4E76-9F10-D58D5CB99339}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArchiSteamFarm.CustomPlugins.WorkerPlugin", "ArchiSteamFarm.CustomPlugins.WorkerPlugin\ArchiSteamFarm.CustomPlugins.WorkerPlugin.csproj", "{32E8B5A3-4051-423A-8E37-4B8329BFF92F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArchiSteamFarm.OfficialPlugins.Worker", "ArchiSteamFarm.OfficialPlugins.Worker\ArchiSteamFarm.OfficialPlugins.Worker.csproj", "{32E8B5A3-4051-423A-8E37-4B8329BFF92F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

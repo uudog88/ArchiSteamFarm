@@ -1,0 +1,15 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(dir)",
+      "Bash(dotnet build:*)",
+      "Bash(dir /s)",
+      "Bash(move \"ArchiSteamFarm.CustomPlugins.WorkerPlugin\" \"ArchiSteamFarm.CustomPlugins.Worker\")",
+      "Bash(ren \"ArchiSteamFarm.CustomPlugins.WorkerPlugin\" \"ArchiSteamFarm.CustomPlugins.Worker\")",
+      "Bash(mv \"ArchiSteamFarm.CustomPlugins.WorkerPlugin\" \"ArchiSteamFarm.CustomPlugins.Worker\")",
+      "Bash(mv \"ArchiSteamFarm.CustomPlugins.WorkerPlugin.csproj\" \"ArchiSteamFarm.CustomPlugins.Worker.csproj\")",
+      "Bash(find . -name \"*.cs\" -type f -exec sed -i 's/ArchiSteamFarm\\.CustomPlugins\\.WorkerPlugin/ArchiSteamFarm.CustomPlugins.Worker/g' {} ;)"
+    ],
+    "deny": []
+  }
+}
